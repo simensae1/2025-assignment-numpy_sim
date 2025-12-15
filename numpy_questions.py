@@ -16,6 +16,8 @@ This will be enforced with `flake8`. You can check that there is no flake8
 errors by calling `flake8` at the root of the repo.
 """
 import numpy as np
+
+
 def max_index(X):
     """Return the index of the maximum in a numpy array.
 
@@ -39,11 +41,12 @@ def max_index(X):
         raise ValueError("Input must be a numpy.ndarray.")
     if X.ndim != 2:
         raise ValueError(
-            f"Input array must be 2D, but got {X.ndim} dimensions."
-        )
+            f"Input array must be 2D, but got {X.ndim} dimensions.")
     flat_index = np.argmax(X)
     row_index, col_index = np.unravel_index(flat_index, X.shape)    
     return int(row_index), int(col_index)
+
+
 def wallis_product(n_terms):
     """Implement the Wallis product to compute an approximation of pi.
 
