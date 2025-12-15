@@ -2,20 +2,22 @@
 
 The goals of this assignment are:
     * Use numpy in practice with two easy exercises.
-    * Use automated tools to validate the code (`pytest` and `flake8`)
-    * Submit a Pull-Request on github to practice `git`.
+    * Use automated tools to validate the code (pytest and flake8)
+    * Submit a Pull-Request on github to practice git.
 
 The two functions below are skeleton functions. The docstrings explain what
 are the inputs, the outputs and the expected error. Fill the function to
 complete the assignment. The code should be able to pass the test that we
-wrote. To run the tests, use `pytest test_numpy_question.py` at the root of
+wrote. To run the tests, use pytest test_numpy_question.py at the root of
 the repo. It should say that 2 tests ran with success.
 
 We also ask to respect the pep8 convention: https://pep8.org.
-This will be enforced with `flake8`. You can check that there is no flake8
-errors by calling `flake8` at the root of the repo.
+This will be enforced with flake8. You can check that there is no flake8
+errors by calling flake8 at the root of the repo.
 """
 import numpy as np
+
+
 def max_index(X):
     """Return the index of the maximum in a numpy array.
 
@@ -35,15 +37,23 @@ def max_index(X):
         If the input is not a numpy array or
         if the shape is not 2D.
     """
+    i = 0
+    j = 0
     if not isinstance(X, np.ndarray):
-        raise ValueError("Input must be a numpy.ndarray.")
-    if X.ndim != 2:
-        raise ValueError(
-            f"Input array must be 2D, but got {X.ndim} dimensions."
-        )
-    flat_index = np.argmax(X)
-    row_index, col_index = np.unravel_index(flat_index, X.shape)    
-    return int(row_index), int(col_index)
+        raise ValueError('Not a numpy array')
+    if len(np.shape(X)) != 2:
+        raise ValueError('The shape is not 2D')
+
+    max = X[i][j]
+    for i_test in range(np.shape(X)[0]):
+        for j_test in range(np.shape(X)[1]):
+            if max < X[i_test][j_test]:
+                max = X[i_test][j_test]
+                i = i_test
+                j = j_test
+    return (i, j)
+
+
 def wallis_product(n_terms):
     """Implement the Wallis product to compute an approximation of pi.
 
@@ -53,20 +63,18 @@ def wallis_product(n_terms):
     Parameters
     ----------
     n_terms : int
-        Number of steps in the Wallis product. Note that `n_terms=0` will
-        consider the product to be `1`.
+        Number of steps in the Wallis product. Note that n_terms=0 will
+        consider the product to be 1.
 
     Returns
     -------
     pi : float
-        The approximation of order `n_terms` of pi using the Wallis product.
+        The approximation of order n_terms of pi using the Wallis product.
     """
-    if n_terms == 0:
-        return 2.0
-    product = 1.0
-    for k in range(1, n_terms + 1):
-        numerator = 4 * k * k
-        denominator = 4 * k * k - 1
-        product *= (numerator / denominator)
-    pi_approximation = 2.0 * product
-    return pi_approximation
+    # XXX : The n_terms is an int that corresponds to the number of
+    # terms in the product. For example 10000.
+
+    half_pi = 1
+    for n in range(1, n_terms+1):
+        half_pi = 4 * n**2 / (4 * n*2 - 1)
+    return 2*half_pi
