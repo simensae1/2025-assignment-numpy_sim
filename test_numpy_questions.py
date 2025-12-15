@@ -4,10 +4,9 @@
 
 import math as m
 import numpy as np
-
 import pytest
-
 from numpy_questions import wallis_product, max_index
+
 
 def test_max_index():
     X = np.array([[0, 1], [2, 0]])
@@ -35,3 +34,4 @@ def test_wallis_product():
 
     pi_approx = wallis_product(100000)
     assert abs(pi_approx - m.pi) < 1e-4
+
