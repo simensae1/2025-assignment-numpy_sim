@@ -43,7 +43,7 @@ def max_index(X):
         raise ValueError(
             f"Input array must be 2D, but got {X.ndim} dimensions.")
     flat_index = np.argmax(X)
-    row_index, col_index = np.unravel_index(flat_index, X.shape)    
+    row_index, col_index = np.unravel_index(flat_index, X.shape)
     return int(row_index), int(col_index)
 
 
