@@ -37,12 +37,23 @@ def max_index(X):
         If the input is not a numpy array or
         if the shape is not 2D.
     """
-    i = 0
-    j = 0
+    # 1. Validation checks (already correct, but improved style)
+    if not isinstance(X, np.ndarray):
+        raise ValueError("Input must be a numpy.ndarray.")
+    # Check for 2D shape (X.ndim == 2)
+    if X.ndim != 2:
+        raise ValueError(f"Input array must be 2D, but got {X.ndim} dimensions.")
 
-    # TODO
+    # 2. Find the index efficiently using NumPy
+    # np.argmax(X) finds the index of the maximum value if the array was flattened.
+    flat_index = np.argmax(X)
+    
+    # np.unravel_index converts the flat index back to (row, column) coordinates
+    # based on the array's shape.
+    row_index, col_index = np.unravel_index(flat_index, X.shape)
 
-    return i, j
+    # The docstring asks for (i, j) where i is row and j is column.
+    return int(row_index), int(col_index)
 
 
 def wallis_product(n_terms):
@@ -64,4 +75,25 @@ def wallis_product(n_terms):
     """
     # XXX : The n_terms is an int that corresponds to the number of
     # terms in the product. For example 10000.
-    return 0.
+
+    if n_terms == 0:
+        return 2.0  # The product part is 1.0, so pi approx is 2 * 1.0
+        
+    # Initialize the product P. The final approximation for pi is 2 * P.
+    product = 1.0
+    
+    # Iterate from k=1 up to n_terms
+    # The Wallis product for pi/2 involves terms indexed by k=1, 2, 3, ... n_terms
+    for k in range(1, n_terms + 1):
+        # The k-th factor is (4*k^2) / (4*k^2 - 1)
+        
+        numerator = 4 * k * k
+        denominator = 4 * k * k - 1
+        
+        # Multiply the current product by the k-th factor
+        product *= (numerator / denominator)
+        
+    # The Wallis product approximates pi/2.
+    # Therefore, pi is approximated by 2 * product.
+    pi_approximation = 2.0 * product
+    return pi_approximation
